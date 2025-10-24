@@ -1,0 +1,71 @@
+{% extends 'energymonitor/base.html' %}
+{% block title %}Historial{% endblock %}
+{% block content %}
+<h2 class="mb-4">Historial de Mediciones (últimas 50)</h2>
+
+<div class="table-responsive">
+    <table class="table table-striped table-bordered">
+        <thead class="thead-dark">
+            <tr>
+                <th>Fecha y Hora</th>
+                <th>Temperatura (°C)</th>
+                <th>Humedad (%)</th>
+                <th>Voltaje (V)</th>
+                <th>Corriente (A)</th>
+                <th>Potencia (W)</th>
+                <th>Energía (kWh)</th>
+                <th>Frecuencia (Hz)</th>
+                <th>Factor de Potencia</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for dato in datos %}
+            <tr>
+                <td>{{ dato.fecha_hora|date:"d/m/Y H:i:s" }}</td>
+                
+                {# Temperatura: rojo >30°C, verde <=30°C #}
+                <td class="{% if dato.temperatura > 30 %}table-danger{% else %}table-success{% endif %}">
+                    {{ dato.temperatura }}
+                </td>
+
+                {# Humedad: azul si <40%, amarillo si 40-60%, rojo >60% #}
+                <td class="{% if dato.humedad < 40 %}table-primary{% elif dato.humedad <= 60 %}table-warning{% else %}table-danger{% endif %}">
+                    {{ dato.humedad }}
+                </td>
+
+                {# Voltaje: rojo si <110V o >130V, normal verde #}
+                <td class="{% if dato.voltaje < 110 or dato.voltaje > 130 %}table-danger{% else %}table-success{% endif %}">
+                    {{ dato.voltaje }}
+                </td>
+
+                {# Corriente: rojo >10A (ejemplo), normal verde #}
+                <td class="{% if dato.corriente > 10 %}table-danger{% else %}table-success{% endif %}">
+                    {{ dato.corriente }}
+                </td>
+
+                {# Potencia: rojo >1000W (ejemplo), verde normal #}
+                <td class="{% if dato.potencia > 1000 %}table-danger{% else %}table-success{% endif %}">
+                    {{ dato.potencia }}
+                </td>
+
+                {# Energía: amarillo >5kWh, verde <=5kWh #}
+                <td class="{% if dato.energia > 5 %}table-warning{% else %}table-success{% endif %}">
+                    {{ dato.energia }}
+                </td>
+
+                {# Frecuencia: rojo si no está en 49-51Hz, verde si normal #}
+                <td class="{% if dato.frecuencia < 49 or dato.frecuencia > 51 %}table-danger{% else %}table-success{% endif %}">
+                    {{ dato.frecuencia }}
+                </td>
+
+                {# Factor de potencia: rojo <0.8, verde normal #}
+                <td class="{% if dato.factor_potencia < 0.8 %}table-danger{% else %}table-success{% endif %}">
+                    {{ dato.factor_potencia }}
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}

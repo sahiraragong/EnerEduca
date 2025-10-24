@@ -1,0 +1,31 @@
+{% extends 'energymonitor/base.html' %}
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+<h2 class="mb-4">📊 Última Medición</h2>
+
+{% if ultima %}
+    <ul class="list-group">
+        <li class="list-group-item"><strong>🕓 Fecha y Hora:</strong> {{ ultima.fecha_hora|date:"d/m/Y H:i:s" }}</li>
+        <li class="list-group-item"><strong>🌡️ Temperatura:</strong> {{ ultima.temperatura }} °C</li>
+        <li class="list-group-item"><strong>💧 Humedad:</strong> {{ ultima.humedad }} %</li>
+        <li class="list-group-item"><strong>⚡ Voltaje:</strong> {{ ultima.voltaje }} V</li>
+        <li class="list-group-item"><strong>🔌 Corriente:</strong> {{ ultima.corriente }} A</li>
+        <li class="list-group-item"><strong>💡 Potencia:</strong> {{ ultima.potencia }} W</li>
+        <li class="list-group-item"><strong>🔋 Energía:</strong> {{ ultima.energia }} kWh</li>
+        <li class="list-group-item"><strong>🔄 Frecuencia:</strong> {{ ultima.frecuencia }} Hz</li>
+        <li class="list-group-item"><strong>📐 Factor de Potencia:</strong> {{ ultima.factor_potencia }}</li>
+    </ul>
+{% else %}
+    <div class="alert alert-warning mt-3">No hay datos registrados aún.</div>
+{% endif %}
+{% if ultima.temperatura >= 60 %}
+    <form method="post" action="{% url 'emergencia' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">🚨 Avisar Emergencia</button>
+    </form>
+{% endif %}
+
+
+{% endblock %}
+

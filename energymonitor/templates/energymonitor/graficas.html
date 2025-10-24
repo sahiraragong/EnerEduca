@@ -1,0 +1,39 @@
+{% extends 'energymonitor/base.html' %}
+{% block title %}Gráficas{% endblock %}
+
+{% block content %}
+<h2 class="mb-4 text-center">📈 Gráficas de Sensores</h2>
+
+{% if graf1 or graf2 or graf3 %}
+    <div class="mb-5">
+        <h4>🌡️ Temperatura y Humedad</h4>
+        {% if graf1 %}
+            <img src="data:image/png;base64,{{ graf1 }}" class="img-fluid rounded shadow" alt="Gráfica ambiental">
+        {% else %}
+            <p class="text-muted">No hay datos suficientes para esta gráfica.</p>
+        {% endif %}
+    </div>
+
+    <div class="mb-5">
+        <h4>⚡ Voltaje, Corriente y Potencia</h4>
+        {% if graf2 %}
+            <img src="data:image/png;base64,{{ graf2 }}" class="img-fluid rounded shadow" alt="Gráfica eléctrica">
+        {% else %}
+            <p class="text-muted">No hay datos suficientes para esta gráfica.</p>
+        {% endif %}
+    </div>
+
+    <div class="mb-5">
+        <h4>🔋 Energía, Frecuencia y Factor de Potencia</h4>
+        {% if graf3 %}
+            <img src="data:image/png;base64,{{ graf3 }}" class="img-fluid rounded shadow" alt="Gráfica de energía">
+        {% else %}
+            <p class="text-muted">No hay datos suficientes para esta gráfica.</p>
+        {% endif %}
+    </div>
+{% else %}
+    <div class="alert alert-warning">No hay datos suficientes para generar las gráficas.</div>
+{% endif %}
+
+{% endblock %}
+
