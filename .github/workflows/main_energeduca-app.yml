@@ -71,6 +71,7 @@ jobs:
         id: deploy-to-webapp
         with:
           app-name: 'energeduca-app'
-          slot-name: 'Production'
+          slot-name: 'staging'
           
+
 
